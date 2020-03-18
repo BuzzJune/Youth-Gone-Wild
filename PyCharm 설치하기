@@ -1,0 +1,13 @@
+1. 설치 사이트
+https://www.jetbrains.com/pycharm/에 들어갑니다.
+2. 설치 파일 다운로드
+Download Pycharm 페이지에서 Community를 클릭해서 다운로드합니다.
+3. 설치 파일
+설치파일(PyCharm Community Edition Setup)을 실행시킵니다.
+4. 설치의 과정
+※Uninstall Old Verions : 이전 버전의 PyCharm이 있다면 삭제한 후 다운로드한다는 경고화면은 이전 버전의 PyCharm이 깔려있는 컴퓨터에만 나옵니다.
+※Choose Install Location : 설치 위치를 설정합니다.
+※Installation Options : 설치 옵션 선택합니다. 참고로 모두 체크했습니다.
+※Choose Start Menu Folder : 프로그램의 shortcuts을 저장하는 폴더 설정입니다.
+5. 마무리
+이 과정을 마치면 Installing 과정을 거치면서 설치가 끝납니다.
