@@ -1,0 +1,63 @@
+# 단순하게 터미널 창에서 보는 전역일 계산기
+# 조기 전역 계산하는 게 없는 거 같아 만들어 봄.
+import datetime
+import time
+
+print("""
+===========================조기 전역일 계산기===========================
+
+                        자네 임관할 생각은 없나?
+
+조기 전역일의 8시까지 남은 시간 알려드립니다. 그때까지 탈출 절대 안되지.
+
+입대일을 입력하시오. (입력 형식: 2021년 1월 12일 => 21.01.12)""")
+
+now = datetime.datetime.now()
+print()
+a = input("입대일 : ")
+
+while len(a) != 8 or "." not in a:
+    print()
+    print("입력 형식에 맞춰서 다시 입력하시오.")
+    a = input("입대일 : ")
+
+print("전역 전 휴가 일 수를 입력하시오. (정수로 입력)")
+vacation = int(input("답변 : "))
+
+if vacation == 0:
+    print("어떡해ㅠㅠ 불쌍해ㅠㅠㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ")
+a_list = a.split(".")                                   # a_list는 [년, 월, 일]인데 문자열임
+start_year = int(a_list[0]) + 2000                      # start_year는 입대년도
+start_month = int(a_list[1])                            # start_month는 입대월
+start_day = int(a_list[2])                             # start_date는 입대한 일
+start = datetime.datetime(start_year, start_month, start_day, 14)       # start는 입대일
+realbye_month = (start_month + 18) % 12
+realbye_year = (start_month +18)//12 + start_year
+realbye = datetime.datetime(realbye_year, realbye_month, start_day, 8)        # realbye의 date는 start_date임
+realbye = realbye - datetime.timedelta(days=1)                                # fakebye는 가전역이라는 뜻
+fakebye = realbye - datetime.timedelta(days=vacation-1)
+
+print()
+print()
+print("실제 전역일: {}년 {}월 {}일".format(realbye.year, realbye.month, realbye.day))
+print("조기 전역일: {}년 {}월 {}일".format(fakebye.year, fakebye.month, fakebye.day))
+how_long = realbye - now
+days = how_long.days
+hours = how_long.seconds // 3600
+minutes = how_long.seconds // 60 - hours * 60
+seconds = how_long.seconds - hours * 3600 - minutes * 60
+print("남은 복무 기간(실전역 기준): {}일 {}시간 {}분 {}초".format(days, hours, minutes, seconds))
+how_long = fakebye - now
+days = how_long.days
+hours = how_long.seconds // 3600
+minutes = how_long.seconds // 60 - hours * 60
+seconds = how_long.seconds - hours * 3600 - minutes * 60
+print("남은 복무 기간(조기전역 기준): {}일 {}시간 {}분 {}초".format(days, hours, minutes, seconds))
+how_long = now - start
+days = how_long.days
+hours = how_long.seconds // 3600
+minutes = how_long.seconds // 60 - hours * 60
+seconds = how_long.seconds - hours * 3600 - minutes * 60
+print("얼마 동안 복무 당했을까요?: {}일 {}시간 {}분 {}초".format(days, hours, minutes, seconds))
+
+time.sleep(120)
