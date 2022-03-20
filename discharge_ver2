@@ -1,0 +1,66 @@
+# tkinter를 이용한 전역일 계산기(ver.2)를 만들어 봤습니다.
+# 마찬가지로 조기 전역일을 계산할 수 있는 것과 복무한 시간을 확인할 수 있는 것에 전역일 계산 사이트들과는 다른 특별함이 있습니다.
+import datetime
+from tkinter import *
+from tkinter import messagebox
+
+def go_compute():
+    now = datetime.datetime.now()
+    start = datetime.datetime(int(start_year.get()), int(start_month.get()), int(start_day.get()), 14)
+    realbye_month = (start.month + 18) % 12
+    realbye_year = (start.month + 18) // 12 + start.year
+    realbye = datetime.datetime(realbye_year, realbye_month, start.day, 8)  # realbye의 day는 start_day임
+    realbye = realbye - datetime.timedelta(days=1)  # fakebye는 가전역이라는 뜻
+    fakebye = realbye - datetime.timedelta(days=int(vacation.get()) - 1)
+    how_long1 = realbye - now
+    days1 = how_long1.days
+    hours1 = how_long1.seconds // 3600
+    minutes1 = how_long1.seconds // 60 - hours1 * 60
+    seconds1 = how_long1.seconds - hours1 * 3600 - minutes1 * 60
+    how_long2 = fakebye - now
+    days2 = how_long2.days
+    hours2 = how_long2.seconds // 3600
+    minutes2 = how_long2.seconds // 60 - hours2 * 60
+    seconds2 = how_long2.seconds - hours2 * 3600 - minutes2 * 60
+    how_long3 = now - start
+    days3 = how_long3.days
+    hours3 = how_long3.seconds // 3600
+    minutes3 = how_long3.seconds // 60 - hours3 * 60
+    seconds3 = how_long3.seconds - hours3 * 3600 - minutes3 * 60
+    messagebox.showinfo("자네 임관할 생각은 없나?", """
+    실제 전역일: {}년 {}월 {}일
+    조기 전역일: {}년 {}월 {}일
+    남은 복무 기간(실전역 기준): {}일 {}시간 {}분 {}초
+    남은 복무 기간(가전역 기준): {}일 {}시간 {}분 {}초
+    얼마 동안 복무 당했을까요?: {}일 {}시간 {}분 {}초""".format(realbye.year, realbye.month, realbye.day, fakebye.year, fakebye.month, fakebye.day, days1, hours1, minutes1, seconds1, days2, hours2, minutes2, seconds2, days3, hours3, minutes3, seconds3))
+
+window = Tk()
+window.title("전역일")
+
+Label(window, text="").grid(row=0)
+Label(window, text="입대일 입력").grid(row=1)
+
+start_year = Entry(window, width = 8)
+start_month = Entry(window, width =4)
+start_day = Entry(window, width =4)
+
+start_year.grid(column=0,row=2)
+Label(window, text = "년  ").grid(column=1, row=2)
+start_month.grid(column=2, row=2)
+Label(window, text = "월  ").grid(column=3, row=2)
+start_day.grid(column=4, row=2)
+Label(window, text = "일").grid(column=5, row=2)             # 입대일 입력 형식 끝
+
+Label(window, text="").grid(row=3)
+Label(window, text="휴가 일 수").grid(row=4)
+
+vacation = Entry(window, width = 4)
+
+vacation.grid(column=0,row=5)
+Label(window, text = "일").grid(column=1, row=5)             # 휴가 입력 형식 끝
+
+compute = Button(window, text= "계산", command= go_compute)
+compute.grid(column=2, row=7)
+Label(window, text = "").grid(row=8)                         # 계산 버튼 그리고 아래 형식 끝
+
+window.mainloop()
